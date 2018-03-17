@@ -1,0 +1,59 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.10.RELEASE'
+	}
+	repositories {
+		maven {
+	      url "https://plugins.gradle.org/m2/"
+	    }
+		mavenCentral()
+		jcenter()
+	}
+	dependencies {
+		classpath "io.qameta.allure:allure-gradle:2.5"
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+	}
+}
+
+apply plugin: 'io.qameta.allure'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+allure {
+    version = '2.6.0'
+    autoconfigure = true
+    aspectjweaver = true
+    allureJavaVersion = "2.6.0"
+}
+
+group = 'lunigorn'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.16.20'
+	
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	
+	// postgresql
+	compile 'org.postgresql:postgresql:42.2.1'
+	
+	// db migrations
+	compile 'org.liquibase:liquibase-core:3.5.3'
+	
+	//test	
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	
+	testCompile 'org.testcontainers:postgresql:1.6.0'
+	testCompile 'org.apache.commons:commons-lang3:3.7'
+	
+}
+
+
