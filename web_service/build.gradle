@@ -53,6 +53,8 @@ dependencies {
 	
 	testCompile 'org.testcontainers:postgresql:1.6.0'
 	testCompile 'org.apache.commons:commons-lang3:3.7'
+	testCompile 'org.projectlombok:lombok:1.16.20'
+	testCompile 'com.jayway.jsonpath:json-path:2.3.0'	
 	
 }
 
