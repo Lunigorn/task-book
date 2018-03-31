@@ -13,8 +13,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @SpringBootTest
 public class TaskBookServiceApplicationTests {
 
-	@Bean
-	public PostgreSQLContainer postgresql() { return new PostgreSQLContainer();}
+/*	@Bean
+	public PostgreSQLContainer postgresql() { return new PostgreSQLContainer();}*/
 	
 	@Test
 	public void contextLoads() {
