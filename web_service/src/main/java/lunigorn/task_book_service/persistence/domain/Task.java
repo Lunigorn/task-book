@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
-
+// Krivonogov ES. test comment
 @Data
 @Entity
 @Table(name = "tasks")
