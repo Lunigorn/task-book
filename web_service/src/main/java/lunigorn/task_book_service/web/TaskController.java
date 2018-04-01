@@ -36,9 +36,9 @@ public class TaskController {
 		return tasks.findOne(id);
     }
 	
-	@RequestMapping(path = "/tasks/", method = RequestMethod.GET)
+	@RequestMapping(path = "/tasks", method = RequestMethod.GET)
     public Iterable<Task> getAll() {
-		return tasks.findAll();	
+		return tasks.findAll();
 	}
 	
 	@RequestMapping(path = "/tasks/{id}", method = RequestMethod.DELETE)
