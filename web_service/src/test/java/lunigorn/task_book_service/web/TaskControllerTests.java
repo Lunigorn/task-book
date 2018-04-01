@@ -159,7 +159,7 @@ public class TaskControllerTests {
                 .andExpect(jsonPath("$.name", is(task.getName())));
 		
 	}
-	
+
 	@Test
 	@SneakyThrows({Exception.class})
 	public void taskDeleteByIdSucces() {
