@@ -44,7 +44,10 @@ dependencies {
 	
 	// postgresql
 	compile 'org.postgresql:postgresql:42.2.1'
-	
+
+	//dbunit
+	compile 'org.dbunit:dbunit:2.5.4'
+
 	// db migrations
 	compile 'org.liquibase:liquibase-core:3.5.3'
 	
@@ -55,7 +58,5 @@ dependencies {
 	testCompile 'org.apache.commons:commons-lang3:3.7'
 	testCompile 'org.projectlombok:lombok:1.16.20'
 	testCompile 'com.jayway.jsonpath:json-path:2.3.0'	
-	
+
 }
-
-
