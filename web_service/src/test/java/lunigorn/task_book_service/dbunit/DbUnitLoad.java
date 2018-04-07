@@ -1,16 +1,16 @@
 package lunigorn.task_book_service.dbunit;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+import java.io.FileInputStream;
+
 import org.dbunit.DBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Test;
-import org.junit.Assert.*;
-
-import java.io.FileInputStream;
-
-import static sun.nio.cs.Surrogate.is;
 
 public class DbUnitLoad extends DBTestCase {
     public DbUnitLoad(String name) {
@@ -37,7 +37,7 @@ public class DbUnitLoad extends DBTestCase {
     @Test
     public void testById() {
 
-        long id = 5;// get user id from database
-        assertEquals(5, id);
+        long id = 1010;// get user id from database
+        assertThat(1010L, is(id));
     }
 }
