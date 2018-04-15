@@ -69,16 +69,18 @@ public class TaskControllerTests {
 	public void taskInsertSucces() {
 		// arrange
 		String randomName = RandomStringUtils.randomAlphabetic(10);
+		String randomDescription = RandomStringUtils.randomAlphabetic(1000);
 		
 		// act
 		MvcResult result = mockMvc.perform(post("/tasks/")
-                .content("{\"name\":\""+ randomName+"\"}")
+                .content("{\"name\":\""+ randomName+"\",\"description\":\"" + randomDescription+"\"}")
                 .contentType(contentType))
 				.andDo(print())
 		// assert
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$.id", anything()))
                 .andExpect(jsonPath("$.name", is(randomName)))
+                .andExpect(jsonPath("$.description", is(randomDescription)))
                 .andReturn();
 		String responseText = result.getResponse().getContentAsString();
 		// assert returned task has id
@@ -87,6 +89,7 @@ public class TaskControllerTests {
 		// assert returned task is saved in database
 		Task savedTask = tasks.findOne(savedTaskId.longValue());
 		assertEquals(savedTask.getName(), randomName);
+		assertEquals(savedTask.getDescription(), randomDescription);
 		
 	}
 	
@@ -96,14 +99,18 @@ public class TaskControllerTests {
 		// arrange
 		Integer randomId = new Random().nextInt();
 		String randomName = RandomStringUtils.randomAlphabetic(10);
-		
+		String randomDescription = RandomStringUtils.randomAlphabetic(1000);
+	
 		Task foundByRandomId = tasks.findOne(randomId.longValue());
 		if (foundByRandomId != null)
+		{
 			assertNotEquals(randomName, foundByRandomId.getName());
+			assertNotEquals(randomDescription, foundByRandomId.getDescription());
+		}
 		
 		// act
 		MvcResult result = mockMvc.perform(post("/tasks/")
-                .content("{\"id\":\""+randomId+"\",\"name\":\""+ randomName+"\"}")
+                .content("{\"id\":\""+randomId+"\",\"name\":\""+ randomName+"\",\"description\":\"" + randomDescription + "\"}")
                 .contentType(contentType))
 				.andDo(print())
 		// assert
@@ -123,25 +130,33 @@ public class TaskControllerTests {
 		// arrange		
 		Task task = new Task();
 		String randomName = RandomStringUtils.randomAlphabetic(10);
+		String randomDescription = RandomStringUtils.randomAlphabetic(1000);
 		task.setName(randomName);	
+		task.setDescription(randomDescription);	
 		tasks.save(task);	
 		String newRandomName = RandomStringUtils.randomAlphabetic(10);
+		String newRandomDescription = RandomStringUtils.randomAlphabetic(1000);
 		
 		// assert name saved in database is correct
-		tasks.findOne(task.getId()).getName().equals(randomName);
-		
+		assertEquals(tasks.findOne(task.getId()).getName(), randomName);
+		assertEquals(tasks.findOne(task.getId()).getDescription(), randomDescription);
 		// act
 		mockMvc.perform(put("/tasks/")
-                .content("{\"id\":\""+task.getId()+"\",\"name\":\""+ newRandomName+"\"}")
+                .content("{\"id\":\""+task.getId()+"\",\"name\":\""+ newRandomName+"\",\"description\":\"" + newRandomDescription + "\"}")
                 .contentType(contentType))
 				.andDo(print())
 		// assert
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$.id", anything()))
-                .andExpect(jsonPath("$.name", is(newRandomName)));
+                .andExpect(jsonPath("$.name", is(newRandomName)))
+                .andExpect(jsonPath("$.description", is(newRandomDescription)));
+		
 		// assert name saved in database is changed
-		tasks.findOne(task.getId()).getName().equals(newRandomName);
-				
+		assertEquals(tasks.findOne(task.getId()).getName(), newRandomName);
+		assertEquals(tasks.findOne(task.getId()).getDescription(), newRandomDescription);
+
+		assertNotEquals(tasks.findOne(task.getId()).getName(), randomName);
+		assertNotEquals(tasks.findOne(task.getId()).getDescription(), randomDescription);
 	}
 	
 	@Test
@@ -150,7 +165,9 @@ public class TaskControllerTests {
 		// arrange
 		Task task = new Task();
 		String randomName = RandomStringUtils.randomAlphabetic(10);
+		String randomDescription = RandomStringUtils.randomAlphabetic(1000);
 		task.setName(randomName);	
+		task.setDescription(randomDescription);	
 		tasks.save(task);		
 		
 		// act
@@ -160,7 +177,9 @@ public class TaskControllerTests {
 		// assert
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$.id", is(task.getId().intValue())))
-                .andExpect(jsonPath("$.name", is(task.getName())));
+                .andExpect(jsonPath("$.name", is(task.getName())))
+                .andExpect(jsonPath("$.description", is(task.getDescription())))
+                ;
 		
 	}
 
@@ -203,7 +222,9 @@ public class TaskControllerTests {
 		// arrange
 		Task task = new Task();
 		String randomName = RandomStringUtils.randomAlphabetic(10);
+		String randomDescription = RandomStringUtils.randomAlphabetic(1000);
 		task.setName(randomName);	
+		task.setDescription(randomDescription);	
 		tasks.save(task);		
 		
 		Task foundBeforeDelete = tasks.findOne(task.getId());
@@ -216,7 +237,9 @@ public class TaskControllerTests {
 		// assert
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$.id", is(task.getId().intValue())))
-                .andExpect(jsonPath("$.name", is(task.getName())));
+                .andExpect(jsonPath("$.name", is(task.getName())))
+                .andExpect(jsonPath("$.description", is(task.getDescription())))
+                ;
 		Task foundAfterDelete = tasks.findOne(task.getId());
 		assertNull(foundAfterDelete);
 		

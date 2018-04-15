@@ -16,4 +16,5 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	String name;
+	String description;
 }
