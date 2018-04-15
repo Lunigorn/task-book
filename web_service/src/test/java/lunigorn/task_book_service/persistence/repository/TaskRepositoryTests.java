@@ -25,7 +25,9 @@ public class TaskRepositoryTests {
 		// arrange
 		Task task = new Task();
 		String randomName = RandomStringUtils.randomAlphabetic(10);
-		task.setName(randomName);		
+		String randomDescription = RandomStringUtils.randomAlphabetic(1000);
+		task.setName(randomName);	
+		task.setDescription(randomDescription);
 		// act
 		tasks.save(task);
 		// assert
@@ -38,7 +40,9 @@ public class TaskRepositoryTests {
 		// arrange
 		Task task = new Task();
 		String randomName = RandomStringUtils.randomAlphabetic(10);
+		String randomDescription = RandomStringUtils.randomAlphabetic(1000);
 		task.setName(randomName);
+		task.setDescription(randomDescription);
 		tasks.save(task);
 		Task toDelete = tasks.findOneByName(randomName);
 		// act
