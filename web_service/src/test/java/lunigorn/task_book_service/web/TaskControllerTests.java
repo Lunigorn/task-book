@@ -34,6 +34,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.jayway.jsonpath.JsonPath;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
 import lombok.SneakyThrows;
 import lunigorn.task_book_service.persistence.domain.Task;
 import lunigorn.task_book_service.persistence.repository.TaskRepository;
@@ -178,7 +182,40 @@ public class TaskControllerTests {
                 ;
 		
 	}
-	
+
+	@Test
+	@SneakyThrows({Exception.class})
+	public void taskGetAlldSucces() {
+		// arrange
+
+		//результат прямого запроса в БД
+		Iterable<Task> allRowsDB=tasks.findAll();
+		ObjectMapper objectMapper = new ObjectMapper();
+		String allRowsDbAll;
+		try {
+			allRowsDbAll = objectMapper.writeValueAsString(allRowsDB);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException(e);
+		}
+
+		// act
+		MvcResult result = mockMvc.perform(get("/tasks")
+				.contentType(contentType))
+				.andDo(print())
+				// assert
+				.andReturn();
+
+		//результат GET запроса
+		String responseText = result.getResponse().getContentAsString();
+
+		// assert
+		System.out.println("responseText = " + responseText);
+		System.out.println("allRowsDbAll = " + allRowsDbAll);
+
+		assertEquals(responseText, allRowsDbAll);
+
+	}
+
 	@Test
 	@SneakyThrows({Exception.class})
 	public void taskDeleteByIdSucces() {
